@@ -7,7 +7,6 @@ export default () => {
 	
 	const bundleExternal = (path: string) => {
 		try {
-			console.log(path);
 			const command = new Deno.Command(Deno.execPath(), {
 				args: ['bundle', path],
 			});
@@ -34,7 +33,6 @@ export default () => {
 		const [_currentPath, ...nextPath] = args.path.split('/');
 		const currentPath = _currentPath + (nextPath.length ? '/' : '');
 		
-		console.log(currentPath);
 		if (currentPath.match(MODULE_REGEX)) {
 			const cwd = Deno.cwd();
 			const denoPath = `${cwd}/deno.json`;
@@ -46,7 +44,6 @@ export default () => {
 			const denoJson = JSON.parse(Deno.readTextFileSync(denoPath));
 			const path = denoJson.imports[currentPath] + nextPath?.join('/');
 			
-			console.log(path);
 			
 			if (!bundleExternal(path)) return null;
 			return {
